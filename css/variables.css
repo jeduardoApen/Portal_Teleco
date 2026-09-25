@@ -1,0 +1,42 @@
+:root {
+  /* Paleta obligatoria */
+  --color-yellow: #F3E600;
+  --color-red: #C5003C;
+  --color-burgundy: #880425;
+  --color-cyan: #55EAD4;
+  --color-black: #000000;
+
+  /* Derivadas para interfaz */
+  --color-bg: var(--color-black);
+  --color-surface: #0b0b0c;
+  --color-surface-2: #121214;
+  --color-border: #24242a;
+  --color-text: #eaeaea;
+  --color-text-dim: #9a9aa3;
+
+  --color-accent: var(--color-yellow);
+  --color-accent-2: var(--color-cyan);
+  --color-danger: var(--color-red);
+
+  /* Tipografía */
+  --font-body: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Consolas", "SF Mono", "Menlo", "DejaVu Sans Mono", monospace;
+
+  /* Espaciado */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+
+  /* Bordes */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+
+  /* Transiciones */
+  --transition: 0.18s ease;
+
+  /* Sombras sutiles (moderadas) */
+  --shadow-card: 0 6px 24px rgba(0, 0, 0, 0.5);
+}

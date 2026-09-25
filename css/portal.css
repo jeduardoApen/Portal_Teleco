@@ -1,0 +1,312 @@
+/* ============================================================
+   Header
+   ============================================================ */
+.header {
+  text-align: center;
+  padding: var(--space-4) var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header__brand {
+  font-family: var(--font-mono);
+  font-size: clamp(1.75rem, 6vw, 2.75rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.header__subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--color-accent-2);
+  margin-top: var(--space-1);
+}
+
+.header__text {
+  color: var(--color-text-dim);
+  font-size: 0.95rem;
+  margin-top: var(--space-2);
+}
+
+/* ============================================================
+   Layout
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-2) var(--space-5);
+  flex: 1;
+}
+
+.section-title {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 var(--space-3);
+}
+
+/* ============================================================
+   Planes
+   ============================================================ */
+.plans__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .plans__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.plan-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-accent-2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-2);
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+.plan-card:hover,
+.plan-card:focus-within {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.plan-card__name {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+}
+
+.plan-card__minutes {
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.plan-card__price {
+  font-family: var(--font-mono);
+  font-size: 1.9rem;
+  color: var(--color-accent-2);
+}
+
+.plan-card__action {
+  margin-top: var(--space-2);
+}
+
+/* ============================================================
+   Botones
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 0.7rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.btn--primary {
+  background: var(--color-accent);
+  color: var(--color-black);
+  font-weight: 700;
+}
+
+.btn--primary:hover {
+  background: var(--color-accent-2);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--color-accent-2);
+  border-color: var(--color-accent-2);
+}
+
+.btn--outline:hover {
+  background: var(--color-accent-2);
+  color: var(--color-black);
+}
+
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   Formulario de voucher
+   ============================================================ */
+.field-input {
+  width: 100%;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+}
+
+.field-input::placeholder {
+  color: var(--color-text-dim);
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: var(--color-accent-2);
+}
+
+.voucher-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+@media (min-width: 640px) {
+  .voucher-form {
+    flex-direction: row;
+  }
+
+  .voucher-form .field-input {
+    flex: 1;
+  }
+}
+
+/* ============================================================
+   Voucher directo
+   ============================================================ */
+.voucher-direct {
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+}
+
+.voucher-direct__title {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.voucher-direct__hint {
+  color: var(--color-text-dim);
+  font-size: 0.9rem;
+  margin-top: var(--space-1);
+}
+
+.voucher-direct .voucher-form {
+  max-width: 460px;
+  margin: var(--space-3) auto 0;
+}
+
+/* ============================================================
+   Modal
+   ============================================================ */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2);
+}
+
+.modal[hidden] {
+  display: none;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+}
+
+.modal__panel {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: var(--color-black);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-3);
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+
+.modal__close {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.6rem;
+  background: none;
+  border: none;
+  color: var(--color-text-dim);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.modal__close:hover {
+  color: var(--color-danger);
+}
+
+.modal__stage[hidden] {
+  display: none;
+}
+
+.modal__title {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  margin-bottom: var(--space-3);
+}
+
+.plan-summary__name {
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+}
+
+.plan-summary__price {
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  color: var(--color-accent-2);
+}
+
+.plan-summary__duration {
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+.payment-approved {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent-2);
+  padding: var(--space-4) 0;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberNet - Internet Prepago</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/portal.css">
+</head>
+<body>
+  <header class="header">
+    <h1 class="header__brand">CYBERNET</h1>
+    <p class="header__subtitle">Internet Prepago</p>
+    <p class="header__text">Selecciona un plan y activa tu conexión.</p>
+  </header>
+
+  <main class="container">
+    <section class="plans" aria-labelledby="plans-title">
+      <h2 class="section-title" id="plans-title">Planes disponibles</h2>
+      <div class="plans__grid" id="plans"></div>
+    </section>
+
+    <section class="voucher-direct" aria-labelledby="voucher-title">
+      <h2 class="voucher-direct__title" id="voucher-title">¿Ya tienes un voucher?</h2>
+      <p class="voucher-direct__hint">Ingrésalo directamente y conéctate.</p>
+
+      <form method="post" action="$PORTAL_ACTION$" class="voucher-form">
+        <input type="hidden" name="redirurl" value="$PORTAL_REDIRURL$">
+        <input type="hidden" name="zone" value="$PORTAL_ZONE$">
+        <input
+          type="text"
+          name="auth_voucher"
+          id="voucher"
+          class="field-input"
+          placeholder="Ingresa tu voucher"
+          autocomplete="off"
+          required>
+        <button type="submit" name="accept" class="btn btn--primary">ACTIVAR INTERNET</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Modal de selección y pago -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal__backdrop" data-close></div>
+
+    <div class="modal__panel">
+      <button type="button" class="modal__close" data-close aria-label="Cerrar">&times;</button>
+
+      <!-- Etapa 1: resumen del plan -->
+      <div class="modal__stage" data-stage="summary">
+        <h2 class="modal__title" id="modal-title">Plan seleccionado</h2>
+        <p class="plan-summary__name" id="modal-plan-name"></p>
+        <p class="plan-summary__price" id="modal-plan-price"></p>
+        <p class="plan-summary__duration" id="modal-plan-duration"></p>
+        <button type="button" class="btn btn--primary" id="btn-pay">SIMULAR PAGO</button>
+      </div>
+
+      <!-- Etapa 2: pago aprobado -->
+      <div class="modal__stage" data-stage="approved" hidden>
+        <p class="payment-approved">PAGO APROBADO</p>
+      </div>
+
+      <!-- Etapa 3: formulario de voucher -->
+      <div class="modal__stage" data-stage="voucher" hidden>
+        <h2 class="modal__title">Activa tu conexión</h2>
+        <form method="post" action="$PORTAL_ACTION$" class="voucher-form">
+          <input type="hidden" name="redirurl" value="$PORTAL_REDIRURL$">
+          <input type="hidden" name="zone" value="$PORTAL_ZONE$">
+          <input
+            type="text"
+            name="auth_voucher"
+            id="voucher-modal"
+            class="field-input"
+            placeholder="Ingresa tu voucher"
+            autocomplete="off"
+            required>
+          <button type="submit" name="accept" class="btn btn--primary">ACTIVAR INTERNET</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
