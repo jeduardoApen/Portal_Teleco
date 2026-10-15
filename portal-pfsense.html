@@ -1,634 +1,676 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CyberNet - Internet Prepago</title>
-  <style>
-    :root {
-      --color-yellow: #F3E600;
-      --color-red: #C5003C;
-      --color-burgundy: #880425;
-      --color-cyan: #55EAD4;
-      --color-black: #000000;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CyberNet - Internet Prepago</title>
+    <style>
+      :root {
+        --color-yellow: #f3e600;
+        --color-red: #c5003c;
+        --color-burgundy: #880425;
+        --color-cyan: #55ead4;
+        --color-black: #000000;
 
-      --color-bg: var(--color-black);
-      --color-surface: #0b0b0c;
-      --color-surface-2: #121214;
-      --color-border: #24242a;
-      --color-text: #eaeaea;
-      --color-text-dim: #9a9aa3;
+        --color-bg: var(--color-black);
+        --color-surface: #0b0b0c;
+        --color-surface-2: #121214;
+        --color-border: #24242a;
+        --color-text: #eaeaea;
+        --color-text-dim: #9a9aa3;
 
-      --color-accent: var(--color-yellow);
-      --color-accent-2: var(--color-cyan);
-      --color-danger: var(--color-red);
+        --color-accent: var(--color-yellow);
+        --color-accent-2: var(--color-cyan);
+        --color-danger: var(--color-red);
 
-      --font-body: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-      --font-mono: "Consolas", "SF Mono", "Menlo", "DejaVu Sans Mono", monospace;
+        --font-body:
+          "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial,
+          sans-serif;
+        --font-mono:
+          "Consolas", "SF Mono", "Menlo", "DejaVu Sans Mono", monospace;
 
-      --space-1: 0.5rem;
-      --space-2: 1rem;
-      --space-3: 1.5rem;
-      --space-4: 2rem;
-      --space-5: 3rem;
+        --space-1: 0.5rem;
+        --space-2: 1rem;
+        --space-3: 1.5rem;
+        --space-4: 2rem;
+        --space-5: 3rem;
 
-      --radius-sm: 6px;
-      --radius: 10px;
-      --radius-lg: 14px;
+        --radius-sm: 6px;
+        --radius: 10px;
+        --radius-lg: 14px;
 
-      --transition: 0.18s ease;
-      --shadow-card: 0 6px 24px rgba(0, 0, 0, 0.5);
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      -webkit-text-size-adjust: 100%;
-    }
-
-    body {
-      font-family: var(--font-body);
-      background-color: var(--color-bg);
-      color: var(--color-text);
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    img,
-    svg {
-      display: block;
-      max-width: 100%;
-    }
-
-    button {
-      font-family: inherit;
-      cursor: pointer;
-    }
-
-    input {
-      font-family: inherit;
-    }
-
-    h1,
-    h2,
-    h3 {
-      line-height: 1.2;
-    }
-
-    :focus-visible {
-      outline: 2px solid var(--color-accent-2);
-      outline-offset: 2px;
-    }
-
-    .header {
-      text-align: center;
-      padding: var(--space-4) var(--space-2) var(--space-3);
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .header__brand {
-      font-family: var(--font-mono);
-      font-size: clamp(1.75rem, 6vw, 2.75rem);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--color-accent);
-    }
-
-    .header__subtitle {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--color-accent-2);
-      margin-top: var(--space-1);
-    }
-
-    .header__text {
-      color: var(--color-text-dim);
-      font-size: 0.95rem;
-      margin-top: var(--space-2);
-    }
-
-    .container {
-      width: 100%;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: var(--space-3) var(--space-2) var(--space-5);
-      flex: 1;
-    }
-
-    .section-title {
-      font-family: var(--font-mono);
-      font-size: 1.1rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      text-align: center;
-      margin: 0 0 var(--space-3);
-    }
-
-    .plans__grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--space-3);
-    }
-
-    @media (min-width: 640px) {
-      .plans__grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .plan-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: var(--space-1);
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-top: 3px solid var(--color-accent-2);
-      border-radius: var(--radius-lg);
-      padding: var(--space-3) var(--space-2);
-      text-align: center;
-      box-shadow: var(--shadow-card);
-      transition: border-color var(--transition), transform var(--transition);
-    }
-
-    .plan-card:hover,
-    .plan-card:focus-within {
-      border-color: var(--color-accent);
-      transform: translateY(-2px);
-    }
-
-    .plan-card__name {
-      font-family: var(--font-mono);
-      font-size: 1.05rem;
-      letter-spacing: 0.08em;
-      color: var(--color-accent);
-    }
-
-    .plan-card__minutes {
-      font-size: 0.95rem;
-      color: var(--color-text);
-    }
-
-    .plan-card__price {
-      font-family: var(--font-mono);
-      font-size: 1.9rem;
-      color: var(--color-accent-2);
-    }
-
-    .plan-card__action {
-      margin-top: var(--space-2);
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-1);
-      border: 1px solid transparent;
-      border-radius: var(--radius);
-      padding: 0.7rem 1.25rem;
-      font-family: var(--font-mono);
-      font-size: 0.88rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: background var(--transition), color var(--transition), border-color var(--transition);
-    }
-
-    .btn--primary {
-      background: var(--color-accent);
-      color: var(--color-black);
-      font-weight: 700;
-    }
-
-    .btn--primary:hover {
-      background: var(--color-accent-2);
-    }
-
-    .btn--outline {
-      background: transparent;
-      color: var(--color-accent-2);
-      border-color: var(--color-accent-2);
-    }
-
-    .btn--outline:hover {
-      background: var(--color-accent-2);
-      color: var(--color-black);
-    }
-
-    .btn[disabled] {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .field-input {
-      width: 100%;
-      background: var(--color-surface-2);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius);
-      padding: 0.7rem 1rem;
-      color: var(--color-text);
-      font-family: var(--font-mono);
-      letter-spacing: 0.05em;
-    }
-
-    .field-input::placeholder {
-      color: var(--color-text-dim);
-    }
-
-    .field-input:focus {
-      outline: none;
-      border-color: var(--color-accent-2);
-    }
-
-    .voucher-form {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-    }
-
-    @media (min-width: 640px) {
-      .voucher-form {
-        flex-direction: row;
+        --transition: 0.18s ease;
+        --shadow-card: 0 6px 24px rgba(0, 0, 0, 0.5);
       }
 
-      .voucher-form .field-input {
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+
+      body {
+        font-family: var(--font-body);
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+
+      button {
+        font-family: inherit;
+        cursor: pointer;
+      }
+
+      input {
+        font-family: inherit;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.2;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--color-accent-2);
+        outline-offset: 2px;
+      }
+
+      .header {
+        text-align: center;
+        padding: var(--space-4) var(--space-2) var(--space-3);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .header__brand {
+        font-family: var(--font-mono);
+        font-size: clamp(1.75rem, 6vw, 2.75rem);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--color-accent);
+      }
+
+      .header__subtitle {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--color-accent-2);
+        margin-top: var(--space-1);
+      }
+
+      .header__text {
+        color: var(--color-text-dim);
+        font-size: 0.95rem;
+        margin-top: var(--space-2);
+      }
+
+      .container {
+        width: 100%;
+        max-width: 960px;
+        margin: 0 auto;
+        padding: var(--space-3) var(--space-2) var(--space-5);
         flex: 1;
       }
-    }
 
-    .voucher-direct {
-      text-align: center;
-      border-top: 1px solid var(--color-border);
-      margin-top: var(--space-5);
-      padding-top: var(--space-4);
-    }
+      .section-title {
+        font-family: var(--font-mono);
+        font-size: 1.1rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-align: center;
+        margin: 0 0 var(--space-3);
+      }
 
-    .voucher-direct__title {
-      font-family: var(--font-mono);
-      font-size: 1.15rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--color-text);
-    }
+      .plans__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+      }
 
-    .voucher-direct__hint {
-      color: var(--color-text-dim);
-      font-size: 0.9rem;
-      margin-top: var(--space-1);
-    }
+      @media (min-width: 640px) {
+        .plans__grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
 
-    .voucher-direct .voucher-form {
-      max-width: 460px;
-      margin: var(--space-3) auto 0;
-    }
+      .plan-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-1);
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-top: 3px solid var(--color-accent-2);
+        border-radius: var(--radius-lg);
+        padding: var(--space-3) var(--space-2);
+        text-align: center;
+        box-shadow: var(--shadow-card);
+        transition:
+          border-color var(--transition),
+          transform var(--transition);
+      }
 
-    .modal {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: var(--space-2);
-    }
+      .plan-card:hover,
+      .plan-card:focus-within {
+        border-color: var(--color-accent);
+        transform: translateY(-2px);
+      }
 
-    .modal[hidden] {
-      display: none;
-    }
+      .plan-card__name {
+        font-family: var(--font-mono);
+        font-size: 1.05rem;
+        letter-spacing: 0.08em;
+        color: var(--color-accent);
+      }
 
-    .modal__backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.78);
-    }
+      .plan-card__minutes {
+        font-size: 0.95rem;
+        color: var(--color-text);
+      }
 
-    .modal__panel {
-      position: relative;
-      width: 100%;
-      max-width: 420px;
-      background: var(--color-black);
-      border: 1px solid var(--color-border);
-      border-top: 3px solid var(--color-accent);
-      border-radius: var(--radius-lg);
-      padding: var(--space-4) var(--space-3);
-      text-align: center;
-      box-shadow: var(--shadow-card);
-    }
+      .plan-card__price {
+        font-family: var(--font-mono);
+        font-size: 1.9rem;
+        color: var(--color-accent-2);
+      }
 
-    .modal__close {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.6rem;
-      background: none;
-      border: none;
-      color: var(--color-text-dim);
-      font-size: 1.6rem;
-      line-height: 1;
-    }
+      .plan-card__action {
+        margin-top: var(--space-2);
+      }
 
-    .modal__close:hover {
-      color: var(--color-danger);
-    }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-1);
+        border: 1px solid transparent;
+        border-radius: var(--radius);
+        padding: 0.7rem 1.25rem;
+        font-family: var(--font-mono);
+        font-size: 0.88rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transition:
+          background var(--transition),
+          color var(--transition),
+          border-color var(--transition);
+      }
 
-    .modal__stage[hidden] {
-      display: none;
-    }
+      .btn--primary {
+        background: var(--color-accent);
+        color: var(--color-black);
+        font-weight: 700;
+      }
 
-    .modal__title {
-      font-family: var(--font-mono);
-      font-size: 1rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--color-text-dim);
-      margin-bottom: var(--space-3);
-    }
+      .btn--primary:hover {
+        background: var(--color-accent-2);
+      }
 
-    .plan-summary__name {
-      font-family: var(--font-mono);
-      font-size: 1.3rem;
-      letter-spacing: 0.06em;
-      color: var(--color-accent);
-    }
+      .btn--outline {
+        background: transparent;
+        color: var(--color-accent-2);
+        border-color: var(--color-accent-2);
+      }
 
-    .plan-summary__price {
-      font-family: var(--font-mono);
-      font-size: 2.2rem;
-      color: var(--color-accent-2);
-    }
+      .btn--outline:hover {
+        background: var(--color-accent-2);
+        color: var(--color-black);
+      }
 
-    .plan-summary__duration {
-      color: var(--color-text);
-      margin-bottom: var(--space-3);
-    }
+      .btn[disabled] {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
 
-    .payment-approved {
-      font-family: var(--font-mono);
-      font-size: 1.4rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--color-accent-2);
-      padding: var(--space-4) 0;
-    }
-  </style>
-</head>
-<body>
-  <header class="header">
-    <h1 class="header__brand">CYBERNET</h1>
-    <p class="header__subtitle">Internet Prepago</p>
-    <p class="header__text">Selecciona un plan y activa tu conexión.</p>
-  </header>
+      .field-input {
+        width: 100%;
+        background: var(--color-surface-2);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        padding: 0.7rem 1rem;
+        color: var(--color-text);
+        font-family: var(--font-mono);
+        letter-spacing: 0.05em;
+      }
 
-  <main class="container">
-    <section class="plans" aria-labelledby="plans-title">
-      <h2 class="section-title" id="plans-title">Planes disponibles</h2>
-      <div class="plans__grid" id="plans"></div>
-    </section>
+      .field-input::placeholder {
+        color: var(--color-text-dim);
+      }
 
-    <section class="voucher-direct" aria-labelledby="voucher-title">
-      <h2 class="voucher-direct__title" id="voucher-title">¿Ya tienes un voucher?</h2>
-      <p class="voucher-direct__hint">Ingrésalo directamente y conéctate.</p>
+      .field-input:focus {
+        outline: none;
+        border-color: var(--color-accent-2);
+      }
 
-      <form method="post" action="$PORTAL_ACTION$" class="voucher-form">
-        <input type="hidden" name="redirurl" value="$PORTAL_REDIRURL$">
-        <input type="hidden" name="zone" value="$PORTAL_ZONE$">
-        <input
-          type="text"
-          name="auth_voucher"
-          id="voucher"
-          class="field-input"
-          placeholder="Ingresa tu voucher"
-          autocomplete="off"
-          required>
-        <button type="submit" name="accept" class="btn btn--primary">ACTIVAR INTERNET</button>
-      </form>
-    </section>
-  </main>
+      .voucher-form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+      }
 
-  <!-- Modal de selección y pago -->
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
-    <div class="modal__backdrop" data-close></div>
+      @media (min-width: 640px) {
+        .voucher-form {
+          flex-direction: row;
+        }
 
-    <div class="modal__panel">
-      <button type="button" class="modal__close" data-close aria-label="Cerrar">&times;</button>
+        .voucher-form .field-input {
+          flex: 1;
+        }
+      }
 
-      <div class="modal__stage" data-stage="summary">
-        <h2 class="modal__title" id="modal-title">Plan seleccionado</h2>
-        <p class="plan-summary__name" id="modal-plan-name"></p>
-        <p class="plan-summary__price" id="modal-plan-price"></p>
-        <p class="plan-summary__duration" id="modal-plan-duration"></p>
-        <button type="button" class="btn btn--primary" id="btn-pay">SIMULAR PAGO</button>
-      </div>
+      .voucher-direct {
+        text-align: center;
+        border-top: 1px solid var(--color-border);
+        margin-top: var(--space-5);
+        padding-top: var(--space-4);
+      }
 
-      <div class="modal__stage" data-stage="approved" hidden>
-        <p class="payment-approved">PAGO APROBADO</p>
-      </div>
+      .voucher-direct__title {
+        font-family: var(--font-mono);
+        font-size: 1.15rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--color-text);
+      }
 
-      <div class="modal__stage" data-stage="voucher" hidden>
-        <h2 class="modal__title">Activa tu conexión</h2>
+      .voucher-direct__hint {
+        color: var(--color-text-dim);
+        font-size: 0.9rem;
+        margin-top: var(--space-1);
+      }
+
+      .voucher-direct .voucher-form {
+        max-width: 460px;
+        margin: var(--space-3) auto 0;
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-2);
+      }
+
+      .modal[hidden] {
+        display: none;
+      }
+
+      .modal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.78);
+      }
+
+      .modal__panel {
+        position: relative;
+        width: 100%;
+        max-width: 420px;
+        background: var(--color-black);
+        border: 1px solid var(--color-border);
+        border-top: 3px solid var(--color-accent);
+        border-radius: var(--radius-lg);
+        padding: var(--space-4) var(--space-3);
+        text-align: center;
+        box-shadow: var(--shadow-card);
+      }
+
+      .modal__close {
+        position: absolute;
+        top: 0.4rem;
+        right: 0.6rem;
+        background: none;
+        border: none;
+        color: var(--color-text-dim);
+        font-size: 1.6rem;
+        line-height: 1;
+      }
+
+      .modal__close:hover {
+        color: var(--color-danger);
+      }
+
+      .modal__stage[hidden] {
+        display: none;
+      }
+
+      .modal__title {
+        font-family: var(--font-mono);
+        font-size: 1rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--color-text-dim);
+        margin-bottom: var(--space-3);
+      }
+
+      .plan-summary__name {
+        font-family: var(--font-mono);
+        font-size: 1.3rem;
+        letter-spacing: 0.06em;
+        color: var(--color-accent);
+      }
+
+      .plan-summary__price {
+        font-family: var(--font-mono);
+        font-size: 2.2rem;
+        color: var(--color-accent-2);
+      }
+
+      .plan-summary__duration {
+        color: var(--color-text);
+        margin-bottom: var(--space-3);
+      }
+
+      .payment-approved {
+        font-family: var(--font-mono);
+        font-size: 1.4rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--color-accent-2);
+        padding: var(--space-4) 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header__brand">CYBERNET</h1>
+      <p class="header__subtitle">Internet Prepago</p>
+      <p class="header__text">Selecciona un plan y activa tu conexión.</p>
+    </header>
+
+    <main class="container">
+      <section class="plans" aria-labelledby="plans-title">
+        <h2 class="section-title" id="plans-title">Planes disponibles</h2>
+        <div class="plans__grid" id="plans"></div>
+      </section>
+
+      <section class="voucher-direct" aria-labelledby="voucher-title">
+        <h2 class="voucher-direct__title" id="voucher-title">
+          ¿Ya tienes un voucher?
+        </h2>
+        <p class="voucher-direct__hint">Ingrésalo directamente y conéctate.</p>
+
         <form method="post" action="$PORTAL_ACTION$" class="voucher-form">
-          <input type="hidden" name="redirurl" value="$PORTAL_REDIRURL$">
-          <input type="hidden" name="zone" value="$PORTAL_ZONE$">
+          <input type="hidden" name="redirurl" value="$PORTAL_REDIRURL$" />
+          <input type="hidden" name="zone" value="$PORTAL_ZONE$" />
           <input
             type="text"
             name="auth_voucher"
-            id="voucher-modal"
+            id="voucher"
             class="field-input"
             placeholder="Ingresa tu voucher"
             autocomplete="off"
-            required>
-          <button type="submit" name="accept" class="btn btn--primary">ACTIVAR INTERNET</button>
+            required
+          />
+          <button
+            type="submit"
+            name="accept"
+            value="Login"
+            class="btn btn--primary"
+          >
+            ACTIVAR INTERNET
+          </button>
         </form>
+      </section>
+    </main>
+
+    <!-- Modal de selección y pago -->
+    <div
+      class="modal"
+      id="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      hidden
+    >
+      <div class="modal__backdrop" data-close></div>
+
+      <div class="modal__panel">
+        <button
+          type="button"
+          class="modal__close"
+          data-close
+          aria-label="Cerrar"
+        >
+          &times;
+        </button>
+
+        <div class="modal__stage" data-stage="summary">
+          <h2 class="modal__title" id="modal-title">Plan seleccionado</h2>
+          <p class="plan-summary__name" id="modal-plan-name"></p>
+          <p class="plan-summary__price" id="modal-plan-price"></p>
+          <p class="plan-summary__duration" id="modal-plan-duration"></p>
+          <button type="button" class="btn btn--primary" id="btn-pay">
+            SIMULAR PAGO
+          </button>
+        </div>
+
+        <div class="modal__stage" data-stage="approved" hidden>
+          <p class="payment-approved">PAGO APROBADO</p>
+        </div>
+
+        <div class="modal__stage" data-stage="voucher" hidden>
+          <h2 class="modal__title">Activa tu conexión</h2>
+          <form method="post" action="$PORTAL_ACTION$" class="voucher-form">
+            <input type="hidden" name="redirurl" value="$PORTAL_REDIRURL$" />
+            <input type="hidden" name="zone" value="$PORTAL_ZONE$" />
+            <input
+              type="text"
+              name="auth_voucher"
+              id="voucher-modal"
+              class="field-input"
+              placeholder="Ingresa tu voucher"
+              autocomplete="off"
+              required
+            />
+            <button type="submit" name="accept" class="btn btn--primary">
+              ACTIVAR INTERNET
+            </button>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    (function () {
-      "use strict";
+    <script>
+      (function () {
+        "use strict";
 
-      var PAYMENT_DELAY_MS = 1000;
-      var APPROVED_SHOW_MS = 900;
+        var PAYMENT_DELAY_MS = 1000;
+        var APPROVED_SHOW_MS = 900;
 
-      function PlanService() {
-        this.plans = [
-          { id: "cyber-basic", name: "CYBER BASIC", minutes: 30, price: "Q5" },
-          { id: "cyber-plus", name: "CYBER PLUS", minutes: 60, price: "Q10" },
-          { id: "cyber-max", name: "CYBER MAX", minutes: 120, price: "Q15" },
-        ];
-      }
+        function PlanService() {
+          this.plans = [
+            {
+              id: "cyber-basic",
+              name: "CYBER BASIC",
+              minutes: 30,
+              price: "Q5",
+            },
+            { id: "cyber-plus", name: "CYBER PLUS", minutes: 60, price: "Q10" },
+            { id: "cyber-max", name: "CYBER MAX", minutes: 120, price: "Q15" },
+          ];
+        }
 
-      PlanService.prototype.getAll = function () {
-        return this.plans.map(function (plan) {
-          return Object.assign({}, plan);
-        });
-      };
+        PlanService.prototype.getAll = function () {
+          return this.plans.map(function (plan) {
+            return Object.assign({}, plan);
+          });
+        };
 
-      function PaymentSimulator() {}
+        function PaymentSimulator() {}
 
-      PaymentSimulator.prototype.process = function (plan) {
-        return new Promise(function (resolve) {
-          setTimeout(function () {
-            resolve({
-              approved: true,
-              message: "PAGO APROBADO",
-              plan: plan,
-            });
-          }, PAYMENT_DELAY_MS);
-        });
-      };
+        PaymentSimulator.prototype.process = function (plan) {
+          return new Promise(function (resolve) {
+            setTimeout(function () {
+              resolve({
+                approved: true,
+                message: "PAGO APROBADO",
+                plan: plan,
+              });
+            }, PAYMENT_DELAY_MS);
+          });
+        };
 
-      function PortalView(planService, paymentSimulator) {
-        this.planService = planService;
-        this.paymentSimulator = paymentSimulator;
-        this.selectedPlan = null;
-      }
+        function PortalView(planService, paymentSimulator) {
+          this.planService = planService;
+          this.paymentSimulator = paymentSimulator;
+          this.selectedPlan = null;
+        }
 
-      PortalView.prototype.init = function () {
-        this.plansContainer = document.getElementById("plans");
-        this.modal = document.getElementById("modal");
-        this.modalName = document.getElementById("modal-plan-name");
-        this.modalPrice = document.getElementById("modal-plan-price");
-        this.modalDuration = document.getElementById("modal-plan-duration");
-        this.payButton = document.getElementById("btn-pay");
-        this.stages = Array.prototype.slice.call(
-          this.modal.querySelectorAll("[data-stage]")
-        );
+        PortalView.prototype.init = function () {
+          this.plansContainer = document.getElementById("plans");
+          this.modal = document.getElementById("modal");
+          this.modalName = document.getElementById("modal-plan-name");
+          this.modalPrice = document.getElementById("modal-plan-price");
+          this.modalDuration = document.getElementById("modal-plan-duration");
+          this.payButton = document.getElementById("btn-pay");
+          this.stages = Array.prototype.slice.call(
+            this.modal.querySelectorAll("[data-stage]"),
+          );
 
-        this.renderPlans();
-        this.bindEvents();
-      };
+          this.renderPlans();
+          this.bindEvents();
+        };
 
-      PortalView.prototype.renderPlans = function () {
-        var self = this;
-        if (!this.plansContainer) return;
+        PortalView.prototype.renderPlans = function () {
+          var self = this;
+          if (!this.plansContainer) return;
 
-        var fragment = document.createDocumentFragment();
-        this.planService.getAll().forEach(function (plan) {
-          fragment.appendChild(self.createPlanCard(plan));
-        });
-        this.plansContainer.appendChild(fragment);
-      };
+          var fragment = document.createDocumentFragment();
+          this.planService.getAll().forEach(function (plan) {
+            fragment.appendChild(self.createPlanCard(plan));
+          });
+          this.plansContainer.appendChild(fragment);
+        };
 
-      PortalView.prototype.createPlanCard = function (plan) {
-        var self = this;
+        PortalView.prototype.createPlanCard = function (plan) {
+          var self = this;
 
-        var card = document.createElement("article");
-        card.className = "plan-card";
-        card.setAttribute("data-plan-id", plan.id);
+          var card = document.createElement("article");
+          card.className = "plan-card";
+          card.setAttribute("data-plan-id", plan.id);
 
-        var name = document.createElement("h3");
-        name.className = "plan-card__name";
-        name.textContent = plan.name;
+          var name = document.createElement("h3");
+          name.className = "plan-card__name";
+          name.textContent = plan.name;
 
-        var minutes = document.createElement("p");
-        minutes.className = "plan-card__minutes";
-        minutes.textContent = plan.minutes + " minutos";
+          var minutes = document.createElement("p");
+          minutes.className = "plan-card__minutes";
+          minutes.textContent = plan.minutes + " minutos";
 
-        var price = document.createElement("p");
-        price.className = "plan-card__price";
-        price.textContent = plan.price;
+          var price = document.createElement("p");
+          price.className = "plan-card__price";
+          price.textContent = plan.price;
 
-        var button = document.createElement("button");
-        button.type = "button";
-        button.className = "btn btn--outline plan-card__action";
-        button.textContent = "SELECCIONAR";
-        button.addEventListener("click", function () {
-          self.onSelectPlan(plan);
-        });
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "btn btn--outline plan-card__action";
+          button.textContent = "SELECCIONAR";
+          button.addEventListener("click", function () {
+            self.onSelectPlan(plan);
+          });
 
-        card.appendChild(name);
-        card.appendChild(minutes);
-        card.appendChild(price);
-        card.appendChild(button);
-        return card;
-      };
+          card.appendChild(name);
+          card.appendChild(minutes);
+          card.appendChild(price);
+          card.appendChild(button);
+          return card;
+        };
 
-      PortalView.prototype.bindEvents = function () {
-        var self = this;
+        PortalView.prototype.bindEvents = function () {
+          var self = this;
 
-        this.payButton.addEventListener("click", function () {
-          self.onPay();
-        });
+          this.payButton.addEventListener("click", function () {
+            self.onPay();
+          });
 
-        Array.prototype.forEach.call(
-          this.modal.querySelectorAll("[data-close]"),
-          function (el) {
-            el.addEventListener("click", function () {
+          Array.prototype.forEach.call(
+            this.modal.querySelectorAll("[data-close]"),
+            function (el) {
+              el.addEventListener("click", function () {
+                self.closeModal();
+              });
+            },
+          );
+
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" && !self.modal.hidden) {
               self.closeModal();
-            });
-          }
-        );
+            }
+          });
+        };
 
-        document.addEventListener("keydown", function (event) {
-          if (event.key === "Escape" && !self.modal.hidden) {
-            self.closeModal();
-          }
-        });
-      };
+        PortalView.prototype.onSelectPlan = function (plan) {
+          this.selectedPlan = plan;
+          this.modalName.textContent = plan.name;
+          this.modalPrice.textContent = plan.price;
+          this.modalDuration.textContent = plan.minutes + " minutos";
+          this.showStage("summary");
+          this.openModal();
+        };
 
-      PortalView.prototype.onSelectPlan = function (plan) {
-        this.selectedPlan = plan;
-        this.modalName.textContent = plan.name;
-        this.modalPrice.textContent = plan.price;
-        this.modalDuration.textContent = plan.minutes + " minutos";
-        this.showStage("summary");
-        this.openModal();
-      };
+        PortalView.prototype.onPay = function () {
+          var self = this;
+          if (!this.selectedPlan || this.payButton.disabled) return;
 
-      PortalView.prototype.onPay = function () {
-        var self = this;
-        if (!this.selectedPlan || this.payButton.disabled) return;
+          this.payButton.disabled = true;
+          this.payButton.textContent = "PROCESANDO...";
 
-        this.payButton.disabled = true;
-        this.payButton.textContent = "PROCESANDO...";
+          this.paymentSimulator.process(this.selectedPlan).then(function () {
+            self.payButton.disabled = false;
+            self.payButton.textContent = "SIMULAR PAGO";
 
-        this.paymentSimulator.process(this.selectedPlan).then(function () {
-          self.payButton.disabled = false;
-          self.payButton.textContent = "SIMULAR PAGO";
+            self.showStage("approved");
 
-          self.showStage("approved");
+            setTimeout(function () {
+              self.showStage("voucher");
+              var voucherInput = document.getElementById("voucher-modal");
+              if (voucherInput) voucherInput.focus();
+            }, APPROVED_SHOW_MS);
+          });
+        };
 
-          setTimeout(function () {
-            self.showStage("voucher");
-            var voucherInput = document.getElementById("voucher-modal");
-            if (voucherInput) voucherInput.focus();
-          }, APPROVED_SHOW_MS);
-        });
-      };
+        PortalView.prototype.openModal = function () {
+          this.modal.hidden = false;
+          this.payButton.focus();
+        };
 
-      PortalView.prototype.openModal = function () {
-        this.modal.hidden = false;
-        this.payButton.focus();
-      };
+        PortalView.prototype.closeModal = function () {
+          this.modal.hidden = true;
+          this.payButton.disabled = false;
+          this.payButton.textContent = "SIMULAR PAGO";
+        };
 
-      PortalView.prototype.closeModal = function () {
-        this.modal.hidden = true;
-        this.payButton.disabled = false;
-        this.payButton.textContent = "SIMULAR PAGO";
-      };
+        PortalView.prototype.showStage = function (name) {
+          this.stages.forEach(function (stage) {
+            stage.hidden = stage.dataset.stage !== name;
+          });
+        };
 
-      PortalView.prototype.showStage = function (name) {
-        this.stages.forEach(function (stage) {
-          stage.hidden = stage.dataset.stage !== name;
-        });
-      };
+        var planService = new PlanService();
+        var paymentSimulator = new PaymentSimulator();
+        var view = new PortalView(planService, paymentSimulator);
 
-      var planService = new PlanService();
-      var paymentSimulator = new PaymentSimulator();
-      var view = new PortalView(planService, paymentSimulator);
-
-      view.init();
-    })();
-  </script>
-</body>
+        view.init();
+      })();
+    </script>
+  </body>
 </html>
